@@ -31,60 +31,61 @@ export default function Home() {
 
 
   function verificarPaginacao(numero: number) {
-    numero < 0 || primeiraPagina ? setPaginacao(0) : setPaginacao(numero)
+    numero < 0 ? setPaginacao(0) : setPaginacao(numero)
   }
 
   return (
-    <main className={styles.main}>
-      <Header />
-      <div className={styles.pesquisa}>
-        <h1>Digite o livro que deseja pesquisar:</h1>
-        <div className={styles.campoPesquisa}>
-          <input className={styles.input} type='text' value={pesquisa} onChange={(event) => {
-            setPesquisa(event.target.value)
-            setPrimeiraPagina(false)
-            setPaginacao(0)
-          }} />
-          <button className={styles.button} onClick={() => {
-            setPesquisa('')
-            setPrimeiraPagina(true)
-            setPaginacao(0)
-          }}>
-            Limpar
-          </button>
-        </div>
-      </div>
-
-      {loading
-        ? <div className={styles.load}>
-          <Loading />
-        </div>
-        : <div className={styles.resultados__container}>
-          <h2 className={styles.subtitulo}>Clique no livro para ver mais informações:</h2>
-          <div className={styles.resultados}>
-
-            {data.map((livro) => {
-              return (
-                <Livro
-                  {...livro}
-                />
-              )
-
-            })}
-
+      <main className={styles.main}>
+        <Header />
+        <div className={styles.pesquisa}>
+          <h1>Digite o livro que deseja pesquisar:</h1>
+          <div className={styles.campoPesquisa}>
+            <input className={styles.input} type='text' value={pesquisa} onChange={(event) => {
+              setPesquisa(event.target.value)
+              setPrimeiraPagina(false)
+              setPaginacao(0)
+            }} />
+            <button className={styles.button} onClick={() => {
+              setPesquisa('')
+              setPrimeiraPagina(true)
+              setPaginacao(0)
+            }}>
+              Limpar
+            </button>
           </div>
-          <div className={styles.paginacao}>
-            <ArrowBackIosIcon
-              sx={{ margin: 2, cursor: 'pointer' }}
-              onClick={() => verificarPaginacao(paginacao - 11)}
-            />
-            {(paginacao / 11) + 1}
-            <ArrowForwardIosIcon
-              sx={{ margin: 3, cursor: 'pointer' }}
-              onClick={() => verificarPaginacao(paginacao + 11)}
-            />
+        </div>
+
+        {loading
+          ? <div className={styles.load}>
+            <Loading />
           </div>
-        </div>}
-    </main>
+          : <div className={styles.resultados__container}>
+            <h2 className={styles.subtitulo}>Clique no livro para ver mais informações:</h2>
+            <div className={styles.resultados}>
+
+              {data.map((livro) => {
+                return (
+                  <Livro
+                    {...livro}
+                  />
+                )
+
+              })}
+
+            </div>
+            {!primeiraPagina && <div className={styles.paginacao}>
+              <ArrowBackIosIcon
+                sx={{ margin: 2, cursor: 'pointer' }}
+                onClick={() => verificarPaginacao(paginacao - 11)}
+              />
+              {(paginacao / 11) + 1}
+              <ArrowForwardIosIcon
+                sx={{ margin: 3, cursor: 'pointer' }}
+                onClick={() => verificarPaginacao(paginacao + 11)}
+              />
+            </div>
+            }
+          </div>}
+      </main>
   )
 }
